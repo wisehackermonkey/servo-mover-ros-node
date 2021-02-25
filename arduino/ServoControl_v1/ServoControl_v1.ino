@@ -23,15 +23,15 @@
 
 #include <Servo.h> 
 #include <ros.h>
-#include <std_msgs/Float32.msg>
-#include <std_msgs/String.msg>
+#include <std_msgs/Float32.h>
+#include <std_msgs/String.h>
 
 String HEAD_SEND_TOPIC = "debug_head_position";
 String HEAD_RECEIVE_TOPIC = "head_servo_position";
 
 ros::NodeHandle  nh;
 
-std_msgs:String debug_message;
+std_msgs::String debug_message;
 
 Servo servo;
 
@@ -51,7 +51,7 @@ void setup(){
 
   nh.initNode();
   nh.subscribe(sub);
-  nh.advertize(debug_message);
+  nh.advertise(debug_message);
 
   debug_message.data = "Works!";
   servo.attach(9); //attach it to pin 9
