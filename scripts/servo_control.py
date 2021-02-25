@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 
 # creates a ros node that controls two servo motors
@@ -23,12 +22,13 @@ if __name__ == "__main__":
     rospy.init_node("servo_mover")
 
     pub=rospy.Publisher("head_servo_position", Float32, queue_size=1)
+    # sub=rospy.Subscriber("")
     rate=rospy.Rate(10)
     print("servo_mover: Running")
     while not rospy.is_shutdown():
         if motor1_position > 180:
             motor1_position = 0
         pub.publish(motor1_position)
-        motor1_position += 0.01
+        motor1_position += 0.5
         
         rate.sleep()

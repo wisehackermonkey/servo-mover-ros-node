@@ -164,9 +164,43 @@ rostopic echo /head_servo_position
 
 cd ~/catkin_ws/src
 git clone https://github.com/wisehackermonkey/servo-mover-ros-node.git
+cd servo-mover-ros-node
 
-arduino-cli complie -fqn
-arduino-cli compile --fqbn arduino:avr:uno ServoControl_v1
+
+arduino-cli compile --fqbn arduino:avr:uno arduino/ServoControl_v1
+arduino-cli board list
+cd ./arduino
+arduino-cli upload -v -p /dev/ttyACM0 --fqbn  arduino:avr:uno ServoControl_v1
+
+rosrun  servo-mover-ros-node servo_control.py
+-----------------
+ubuntu@reachy:~/github/servo-mover-ros-node/arduino$ rosrun  servo-mover-ros-node servo_control.py
+servo_mover: Running
+-----------------
+```
+### window 2
+```bash
+rostopic list
+-------------
+ubuntu@reachy:~/catkin_ws$ rostopic list
+/head_servo_position
+/rosout
+/rosout_agg
+--------------
+rostopic echo /head_servo_position
+```
+
+```bash
+rosrun  servo-mover-ros-node  servo_control.py
+arduino-cli upload -v -p /dev/ttyACM0 --fqbn  arduino:avr:uno ServoControl_v1
+rosrun  servo-mover-ros-node  servo_control.py
+rostopic list
+```
+
+### view serial monitor with arduino-cli
+#### Note: CTRL-C is exit
+```bash
+stty -F /dev/ttyACM0 raw 115200;cat /dev/ttyACM0
 ```
 -----------------
 # Contributors
