@@ -161,8 +161,12 @@ ubuntu@reachy:~/catkin_ws$ rostopic list
 rostopic echo /head_servo_position
 ```
 ```bash
-cd ~/github/servo-mover-ros-node/arduino/
 
+cd ~/catkin_ws/src
+git clone https://github.com/wisehackermonkey/servo-mover-ros-node.git
+
+arduino-cli complie -fqn
+arduino-cli compile --fqbn arduino:avr:uno ServoControl_v1
 ```
 -----------------
 # Contributors
@@ -182,8 +186,6 @@ oranbusiness@gmail.com
 ______________________
 ```
 
-git config --global user.name "wisehackermonkey"
-git config --global user.email oranbusiness@gmail.com
 
 
 
