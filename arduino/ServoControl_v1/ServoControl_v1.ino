@@ -47,12 +47,14 @@ ros::Subscriber<std_msgs::Float32> sub(HEAD_RECEIVE_TOPIC, servo_cb);
 ros::Publisher debug_position(HEAD_SEND_TOPIC, &debug_message);
 
 void setup(){
+  Serial.begin(115200);
   pinMode(13, OUTPUT);
 
   nh.initNode();
   nh.subscribe(sub);
   nh.advertise(debug_message);
 
+  Serial.println("Setarting Ros Node Servo Control");
   debug_message.data = "Works!";
   servo.attach(9); //attach it to pin 9
 }
@@ -63,3 +65,4 @@ void loop(){
   nh.spinOnce();
   delay(1);
 }
+
