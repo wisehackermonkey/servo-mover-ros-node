@@ -130,7 +130,7 @@ sudo apt-get install ros-noetic-rosserial
 ```
 
 ```bash
-rosrun  servo-mover-ros-node servo_control.py
+rosrun  servo-mover-ros-node scripts/servo_control.py
 ERROR : 
 
 ```
@@ -145,7 +145,10 @@ catkin_install_python(PROGRAMS scripts/servo_control.py
 ### Window 1
 ```bash
 cd ~/catkin_ws
+source ~/catkin_ws/devel/setup.bash
+rospack find  servo-mover-ros-node
 catkin_make
+rosrun rosserial_python serial_node.py /dev/ttyACM0
 rosrun  servo-mover-ros-node servo_control.py
 ```
 
@@ -203,6 +206,16 @@ rostopic list
 stty -F /dev/ttyACM0 raw 115200;cat /dev/ttyACM0
 ```
 -----------------
+
+
+## upload arduino code ServoControl_v2.ino
+```bash
+rosrun rosserial_python serial_node.py /dev/ttyACM0
+
+rostopic pub servo1 std_msgs/UInt16  <angle1> & rostopic pub servo2 std_msgs/UInt16  <angle2>
+rostopic pub servo1 std_msgs/UInt16  0 & rostopic pub servo2 std_msgs/UInt16  180
+```
+
 # Contributors
 
 [![](https://contrib.rocks/image?repo=wisehackermonkey/servo-mover-ros-node)](https://github.com/wisehackermonkey/servo-mover-ros-node/graphs/contributors)

@@ -52,10 +52,10 @@ void setup(){
 
   nh.initNode();
   nh.subscribe(sub);
-  nh.advertise(debug_message);
+//  nh.advertise(debug_message);
 
   Serial.println("Setarting Ros Node Servo Control");
-  debug_message.data = "Works!";
+//  debug_message.data = "Works!";
   servo.attach(9); //attach it to pin 9
 }
 
