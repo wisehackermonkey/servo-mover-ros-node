@@ -42,9 +42,9 @@ void servo_cb( const std_msgs::Float32& cmd_msg){
 
 
 
-ros::Subscriber<std_msgs::Float32> sub(HEAD_RECEIVE_TOPIC, servo_cb);
+ros::Subscriber<std_msgs::Float32> sub("head_servo_position", servo_cb);
 // allow sending data back to computer for debugging purposes on ros topic "head_debug"
-ros::Publisher debug_position(HEAD_SEND_TOPIC, &debug_message);
+ros::Publisher debug_position("head_servo_position", &debug_message);
 
 void setup(){
   Serial.begin(115200);
@@ -65,4 +65,3 @@ void loop(){
   nh.spinOnce();
   delay(1);
 }
-
