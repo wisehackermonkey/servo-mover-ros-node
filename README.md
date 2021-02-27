@@ -209,6 +209,8 @@ stty -F /dev/ttyACM0 raw 115200;cat /dev/ttyACM0
 
 
 ## upload arduino code ServoControl_v2.ino
+[Run multiple servo on ROS with arduino. - ROS Answers: Open Source Q&A Forum](https://answers.ros.org/question/145951/run-multiple-servo-on-ros-with-arduino/?answer=218998?answer=218998#post-id-218998)
+[ServoControl with two or more servos on arduino rosserial - ROS Answers: Open Source Q&A Forum](https://answers.ros.org/question/212611/servocontrol-with-two-or-more-servos-on-arduino-rosserial/)
 ```bash
 rosrun rosserial_python serial_node.py /dev/ttyACM0
 
