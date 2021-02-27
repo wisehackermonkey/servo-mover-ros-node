@@ -21,7 +21,8 @@ def motor_positions_callback(msg):
 if __name__ == "__main__":
     rospy.init_node("servo_mover")
 
-    pub=rospy.Publisher("servo", UInt16, queue_size=1)
+    pub=rospy.Publisher("servo1", UInt16, queue_size=1)
+    pub2=rospy.Publisher("servo2", UInt16, queue_size=1)
     # sub=rospy.Subscriber("")
     rate=rospy.Rate(10)
     print("servo_mover: Running")
@@ -29,6 +30,7 @@ if __name__ == "__main__":
         if motor1_position > 180:
             motor1_position = 0
         pub.publish(motor1_position)
+        pub2.publish(motor1_position)
         motor1_position += 1
         
         rate.sleep()
