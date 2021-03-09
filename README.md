@@ -218,6 +218,27 @@ rostopic pub servo1 std_msgs/UInt16  <angle1> & rostopic pub servo2 std_msgs/UIn
 rostopic pub servo1 std_msgs/UInt16  0 & rostopic pub servo2 std_msgs/UInt16  180
 ```
 
+### how to create launch files
+```bash
+mkdir launch
+cd launch
+nano head_sero_mover.launch
+or 
+code head_sero_mover.launch
+
+```
+### debugging
+```bash
+rostopic list 
+rostopic echo /servo1
+rostopic info /move_head
+rostopic pub /move_head 
+rostopic pub /move_head sensor_msgs/JointState '{position: [1.0, 2.0]}'
+
+
+ "header:   seq: 0  stamp:     secs: 0    nsecs: 0  frame_id: ''joint_names: ['test','test']points:   -     positions: [3.4, 0.61519257357093]    velocities: []    accelerations: []    effort: []    time_from_start:       secs: 2      nsecs: 990099009"
+ ```
+
 # Contributors
 
 [![](https://contrib.rocks/image?repo=wisehackermonkey/servo-mover-ros-node)](https://github.com/wisehackermonkey/servo-mover-ros-node/graphs/contributors)
