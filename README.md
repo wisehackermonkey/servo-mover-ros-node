@@ -234,10 +234,17 @@ rostopic echo /servo1
 rostopic info /move_head
 rostopic pub /move_head 
 rostopic pub /move_head sensor_msgs/JointState '{position: [1.0, 2.0]}'
-
-
- "header:   seq: 0  stamp:     secs: 0    nsecs: 0  frame_id: ''joint_names: ['test','test']points:   -     positions: [3.4, 0.61519257357093]    velocities: []    accelerations: []    effort: []    time_from_start:       secs: 2      nsecs: 990099009"
- ```
+```
+### Run node
+#### note all of these are in sepeart windows
+```bash
+# term 1
+rostopic echo /servo1
+# term 2
+python3 ./servo-mover-ros-node/scripts/servo_control.py 
+# term 3
+rostopic pub /move_head sensor_msgs/JointState '{position: [1.0, 2.0]}'
+```
 
 # Contributors
 
