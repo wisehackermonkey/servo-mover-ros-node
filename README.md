@@ -211,8 +211,8 @@ stty -F /dev/ttyACM0 raw 115200;cat /dev/ttyACM0
 ```bash
 rosrun rosserial_python serial_node.py /dev/ttyACM0
 
-rostopic pub servo1 std_msgs/UInt16  <angle1> & rostopic pub servo2 std_msgs/UInt16  <angle2>
-rostopic pub servo1 std_msgs/UInt16  0 & rostopic pub servo2 std_msgs/UInt16  180
+rostopic pub servo1 std_msgs/UInt16  <angle1> && rostopic pub servo2 std_msgs/UInt16  <angle2>
+rostopic pub servo1 std_msgs/UInt16  0 && rostopic pub servo2 std_msgs/UInt16  180
 ```
 
 ### how to create launch files
@@ -241,6 +241,8 @@ rostopic echo /servo1
 python3 ./servo-mover-ros-node/scripts/servo_control.py 
 # term 3
 rostopic pub /move_head sensor_msgs/JointState '{position: [1.0, 2.0]}'
+rostopic pub /move_head sensor_msgs/JointState '{position: [180.0, 180.0]}'
+rostopic pub /move_head sensor_msgs/JointState '{position: [180.0, 180.0]}'
 ```
 
 # Contributors
