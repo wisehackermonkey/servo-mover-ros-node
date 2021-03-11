@@ -37,13 +37,15 @@ pitch_servo_position = UInt16()
 
 def move_servos(msg):
     print(msg)
-
     print(msg.position[0])
     print(msg.position[1])
+
+    yaw_radians = degrees(msg.position[0])
+    pitch_radians = degrees(msg.position[1])
     
     # convert float angle radians -pi/2 to pi/2 to integer degrees 0-180 
-    yaw_servo_position.data   = int(msg.position[0])
-    pitch_servo_position.data = int(msg.position[1])
+    yaw_servo_position.data   = int(yaw_radians)
+    pitch_servo_position.data = int(pitch_radians)
 
     # send an int angle to move the servo position to 0-180  
     yaw_servo.publish(yaw_servo_position)

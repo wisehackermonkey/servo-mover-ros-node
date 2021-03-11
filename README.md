@@ -213,6 +213,8 @@ rosrun rosserial_python serial_node.py /dev/ttyACM0
 
 rostopic pub servo1 std_msgs/UInt16  <angle1> && rostopic pub servo2 std_msgs/UInt16  <angle2>
 rostopic pub servo1 std_msgs/UInt16  0 && rostopic pub servo2 std_msgs/UInt16  180
+
+ 
 ```
 
 ### how to create launch files
@@ -240,9 +242,14 @@ rostopic echo /servo1
 # term 2
 python3 ./servo-mover-ros-node/scripts/servo_control.py 
 # term 3
-rostopic pub /move_head sensor_msgs/JointState '{position: [1.0, 2.0]}'
-rostopic pub /move_head sensor_msgs/JointState '{position: [180.0, 180.0]}'
-rostopic pub /move_head sensor_msgs/JointState '{position: [180.0, 180.0]}'
+# outdated
+# rostopic pub /move_head sensor_msgs/JointState '{position: [1.0, 2.0]}'
+# rostopic pub /move_head sensor_msgs/JointState '{position: [180.0, 180.0]}'
+# rostopic pub /move_head sensor_msgs/JointState '{position: [180.0, 180.0]}'
+
+# this moves the head from -90 degrees (-1.570796) to posiive 90 degrees
+rostopic pub /move_head sensor_msgs/JointState '{position: [-1.570796, 1.570796]}'
+
 ```
 
 # Contributors
