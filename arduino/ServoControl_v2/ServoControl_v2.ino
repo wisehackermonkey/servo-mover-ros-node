@@ -22,8 +22,8 @@ void servo2_cb( const std_msgs::UInt16&  cmd_msg){
   servo2.write(cmd_msg.data); //set servo angle, should be from 0-180  
   //digitalWrite(13, HIGH-digitalRead(13));  //toggle led  
 }
-ros::Subscriber<std_msgs::UInt16> sub1("servo1", servo1_cb);
-ros::Subscriber<std_msgs::UInt16> sub2("servo2", servo2_cb);
+ros::Subscriber<std_msgs::UInt16> sub1("/head/neck_pan_goal", servo1_cb);
+ros::Subscriber<std_msgs::UInt16> sub2("/head/neck_tilt_goal", servo2_cb);
 
 void setup(){
   pinMode(13, OUTPUT);
