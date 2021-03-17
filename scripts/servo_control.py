@@ -41,18 +41,19 @@ def move_servos(msg):
     print(msg.position[1])
 
     yaw_degrees = math.degrees(msg.position[0])
-    pitch_degrees = math. degrees(msg.position[1])
+    pitch_degrees = math.degrees(msg.position[1])
     
+    print(yaw_degrees, pitch_degrees)
     # convert float angle radians -pi/2 to pi/2 to integer degrees 0-180 
-    yaw_servo_position.data   = int(yaw_radians)
-    pitch_servo_position.data = int(pitch_radians)
+    yaw_servo_position.data   = int(yaw_degrees)
+    pitch_servo_position.data = int(pitch_degrees)
 
     # send an int angle to move the servo position to 0-180  
     yaw_servo.publish(yaw_servo_position)
     pitch_servo.publish(pitch_servo_position)
 
 if __name__ == "__main__":
-    rospy.init_node("/head/position_animator")
+    rospy.init_node("position_animator_node")
     
     # setup topics to control into arduino servo angles
     # publishing a integer between angle 0-180 /servo1 or /servo2 
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     # float64[] effort
 
     # rostopic pub /move_head "/{header:{}, name: ['servo1', 'servo2'], position: [0.5, 0.5], velocity:[], effort:[]}""
-    sub=rospy.Subscriber("move_head", JointState, move_servos)
+    sub=rospy.Subscriber("/head/position_animator", JointState, move_servos)
     
     rate=rospy.Rate(10)
     
