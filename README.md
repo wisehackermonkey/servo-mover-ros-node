@@ -211,8 +211,8 @@ stty -F /dev/ttyACM0 raw 115200;cat /dev/ttyACM0
 ```bash
 rosrun rosserial_python serial_node.py /dev/ttyACM0
 
-rostopic pub servo1 std_msgs/UInt16  <angle1> && rostopic pub servo2 std_msgs/UInt16  <angle2>
-rostopic pub servo1 std_msgs/UInt16  0 && rostopic pub servo2 std_msgs/UInt16  180
+rostopic pub /head/neck_pan_goal std_msgs/UInt16  <angle1> && rostopic pub servo2 std_msgs/UInt16  <angle2>
+rostopic pub /head/neck_pan_goal std_msgs/UInt16  0 && rostopic pub servo2 std_msgs/UInt16  180
 
  
 ```
@@ -229,26 +229,26 @@ code head_sero_mover.launch
 ### debugging
 ```bash
 rostopic list 
-rostopic echo /servo1
-rostopic info /move_head
-rostopic pub /move_head 
-rostopic pub /move_head sensor_msgs/JointState '{position: [1.0, 2.0]}'
+rostopic echo /head/neck_pan_goal
+rostopic info /head/position_animator
+rostopic pub /head/position_animator 
+rostopic pub /head/position_animator sensor_msgs/JointState '{position: [1.0, -1.2]}'
 ```
 ### Run node
 #### note all of these are in sepeart windows
 ```bash
 # term 1
-rostopic echo /servo1
+rostopic echo /head/neck_pan_goal
 # term 2
 python3 ./servo-mover-ros-node/scripts/servo_control.py 
 # term 3
 # outdated
-# rostopic pub /move_head sensor_msgs/JointState '{position: [1.0, 2.0]}'
-# rostopic pub /move_head sensor_msgs/JointState '{position: [180.0, 180.0]}'
-# rostopic pub /move_head sensor_msgs/JointState '{position: [180.0, 180.0]}'
+# rostopic pub /head/position_animator sensor_msgs/JointState '{position: [1.0, 2.0]}'
+# rostopic pub /head/position_animator sensor_msgs/JointState '{position: [180.0, 180.0]}'
+# rostopic pub /head/position_animator sensor_msgs/JointState '{position: [180.0, 180.0]}'
 
 # this moves the head from -90 degrees (-1.570796) to posiive 90 degrees
-rostopic pub /move_head sensor_msgs/JointState '{position: [-1.570796, 1.570796]}'
+rostopic pub /head/position_animator sensor_msgs/JointState '{position: [-1.570796, 1.570796]}'
 
 ```
 
