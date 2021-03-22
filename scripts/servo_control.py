@@ -19,10 +19,12 @@
 
 import rospy
 import math
-
+import time
+from time import sleep
 from std_msgs.msg import UInt16
 from sensor_msgs.msg import JointState
-
+from trajectory_msgs.msg import JointTrajectory 
+from trajectory_msgs.msg import JointTrajectoryPoint 
 
 global yaw_servo
 global tilt_servo
@@ -30,6 +32,8 @@ global sub
 global yaw_servo_position
 global tilt_servo_position
 
+# standard delay between moving the joints
+DELAY = 0.5
 # setting up interger variables 
 #     the arduino only accepts integers
 yaw_servo_position = UInt16()
@@ -40,15 +44,21 @@ tilt_angle_limit = (math.radians(0),math.radians(45))
 
 # helper function
 # keeps the input number between a high and alow
-def constrain(input, low, high):
-    
-def move_servos(msg):
+def constrain(input:float, low:float, high:float) -> float:
+    """
+    input: radian float  an number to be constrained to a range low<-> high
+    low: radian float minimum value the input can be
+    high: radian float maximum value the input can be
+    """
+    return math.max(math.min(input, high), low)
+
+def move_servos(_jointstate: JointTrajectoryPoint) -> None:
     print(msg)
     print(msg.position[0])
     print(msg.position[1])
 
-    yaw_degrees = math.degrees(msg.position[0])
-    tilt_degrees = math.degrees(msg.position[1])
+    yaw_degrees = math.degrees(constrain(msg.position[0]))
+    tilt_degrees = math.degrees(constrain(msg.position[1]))
     
     print(yaw_degrees, tilt_degrees)
     # convert float angle radians -pi/2 to pi/2 to integer degrees 0-180 
@@ -56,9 +66,13 @@ def move_servos(msg):
     tilt_servo_position.data = int(tilt_degrees)
 
     # send an int angle to move the servo position to 0-180  
-    if 
     yaw_servo.publish(yaw_servo_position)
     tilt_servo.publish(tilt_servo_position)
+def move_servos(msg):
+    print(msg)
+    for joint_point in msg.data.points:
+        move_servos(joint_point)
+        sleep(DELAY)
 
 if __name__ == "__main__":
     rospy.init_node("position_animator_node")
@@ -86,7 +100,7 @@ if __name__ == "__main__":
     # float64[] effort
 
     # rostopic pub /move_head "/{header:{}, name: ['servo1', 'servo2'], position: [0.5, 0.5], velocity:[], effort:[]}""
-    sub=rospy.Subscriber("/head/position_animator", JointState, move_servos)
+    sub=rospy.Subscriber("/head/position_animator", JointTrajectory, move_servos)
     
     rate=rospy.Rate(10)
     

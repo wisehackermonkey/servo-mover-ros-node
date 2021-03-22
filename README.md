@@ -252,6 +252,9 @@ rostopic pub /head/position_animator sensor_msgs/JointState '{position: [-1.5707
 
 ```
 
+### the new message format [trajectory_msgs/JointTrajectoryPoint Documentation](http://docs.ros.org/en/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html)
+
+### the new array format JointTrajectory  [trajectory_msgs/JointTrajectory Documentation](http://docs.ros.org/en/api/trajectory_msgs/html/msg/JointTrajectory.html)
 # Contributors
 
 [![](https://contrib.rocks/image?repo=wisehackermonkey/servo-mover-ros-node)](https://github.com/wisehackermonkey/servo-mover-ros-node/graphs/contributors)
