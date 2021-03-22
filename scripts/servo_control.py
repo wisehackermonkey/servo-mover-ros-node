@@ -5,7 +5,7 @@
 # this node accepts JointState which is
 # --------------- 
 # would the datastructure look like
-# jointStateObj.name = ["neck_yaw", "neck_pitch"]
+# jointStateObj.name = ["neck_yaw", "neck_tilt"]
 # jointStateObj.position = [180,0]
 # jointStateObj.velocity# unused
 # jointStateObj.effort#unused
@@ -25,32 +25,40 @@ from sensor_msgs.msg import JointState
 
 
 global yaw_servo
-global pitch_servo
+global tilt_servo
 global sub
 global yaw_servo_position
-global pitch_servo_position
+global tilt_servo_position
 
 # setting up interger variables 
 #     the arduino only accepts integers
 yaw_servo_position = UInt16()
-pitch_servo_position = UInt16()
+tilt_servo_position = UInt16()
 
+yaw_angle_limits = (math.radians(0),math.radians(90)) # in degrees from x to y angles are accepted positions
+tilt_angle_limit = (math.radians(0),math.radians(45))
+
+# helper function
+# keeps the input number between a high and alow
+def constrain(input, low, high):
+    
 def move_servos(msg):
     print(msg)
     print(msg.position[0])
     print(msg.position[1])
 
     yaw_degrees = math.degrees(msg.position[0])
-    pitch_degrees = math.degrees(msg.position[1])
+    tilt_degrees = math.degrees(msg.position[1])
     
-    print(yaw_degrees, pitch_degrees)
+    print(yaw_degrees, tilt_degrees)
     # convert float angle radians -pi/2 to pi/2 to integer degrees 0-180 
     yaw_servo_position.data   = int(yaw_degrees)
-    pitch_servo_position.data = int(pitch_degrees)
+    tilt_servo_position.data = int(tilt_degrees)
 
     # send an int angle to move the servo position to 0-180  
+    if 
     yaw_servo.publish(yaw_servo_position)
-    pitch_servo.publish(pitch_servo_position)
+    tilt_servo.publish(tilt_servo_position)
 
 if __name__ == "__main__":
     rospy.init_node("position_animator_node")
@@ -58,7 +66,7 @@ if __name__ == "__main__":
     # setup topics to control into arduino servo angles
     # publishing a integer between angle 0-180 /servo1 or /servo2 
     yaw_servo   = rospy.Publisher("/head/neck_pan_goal", UInt16, queue_size=1)
-    pitch_servo = rospy.Publisher("/head/neck_tilt_goal", UInt16, queue_size=1)
+    tilt_servo = rospy.Publisher("/head/neck_tilt_goal", UInt16, queue_size=1)
 
     # waiting for a JointState data on the topic "/move_head"
 
