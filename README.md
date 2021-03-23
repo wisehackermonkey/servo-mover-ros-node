@@ -233,6 +233,13 @@ rostopic echo /head/neck_pan_goal
 rostopic info /head/position_animator
 rostopic pub /head/position_animator 
 rostopic pub /head/position_animator sensor_msgs/JointState '{position: [1.0, -1.2]}'
+
+rostopic pub /head/position_animator/debug_point trajectory_msgs/JointTrajectoryPoint '{positions: [1.0, -1.2]}'
+
+rostopic pub /head/position_animator trajectory_msgs/JointTrajectory '{points:[{positions:[1.5,1.5]}]}'
+
+
+rostopic pub /head/position_animator trajectory_msgs/JointTrajectory '{points:[{positions:[1.5,1.5]},{positions:[0.8,1.2]},{positions:[0.7,0.6]},{positions:[0.3,0.1]}]}'
 ```
 ### Run node
 #### note all of these are in sepeart windows
@@ -255,6 +262,20 @@ rostopic pub /head/position_animator sensor_msgs/JointState '{position: [-1.5707
 ### the new message format [trajectory_msgs/JointTrajectoryPoint Documentation](http://docs.ros.org/en/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html)
 
 ### the new array format JointTrajectory  [trajectory_msgs/JointTrajectory Documentation](http://docs.ros.org/en/api/trajectory_msgs/html/msg/JointTrajectory.html)
+
+
+# Ros launch
+```bash
+cd ~/catkin_ws
+
+source ~/catkin_ws/devel/setup.bash
+
+catkin_make
+
+rospack find  servo-mover-ros-node
+
+roslaunch servo-mover-ros-node head.launch
+```
 # Contributors
 
 [![](https://contrib.rocks/image?repo=wisehackermonkey/servo-mover-ros-node)](https://github.com/wisehackermonkey/servo-mover-ros-node/graphs/contributors)

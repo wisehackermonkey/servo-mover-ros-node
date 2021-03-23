@@ -39,9 +39,10 @@ DELAY = 0.5
 yaw_servo_position = UInt16()
 tilt_servo_position = UInt16()
 
-yaw_angle_limits = (math.radians(0),math.radians(90)) # in degrees from x to y angles are accepted positions
-tilt_angle_limit = (math.radians(0),math.radians(45))
-
+yaw_min = math.radians(-45) # in degrees from x to y angles are accepted positions
+yaw_max = math.radians(45)
+tilt_min = math.radians(-45)
+tilt_max = math.radians(45)
 # helper function
 # keeps the input number between a high and alow
 def constrain(input:float, low:float, high:float) -> float:
@@ -50,17 +51,17 @@ def constrain(input:float, low:float, high:float) -> float:
     low: radian float minimum value the input can be
     high: radian float maximum value the input can be
     """
-    return math.max(math.min(input, high), low)
+    return max(min(input, high), low)
 
-def move_servos(_jointstate: JointTrajectoryPoint) -> None:
+def move_servos(msg: JointTrajectoryPoint) -> None:
     print(msg)
-    print(msg.position[0])
-    print(msg.position[1])
+    print(msg.positions[0])
+    print(msg.positions[1])
 
-    yaw_degrees = math.degrees(constrain(msg.position[0]))
-    tilt_degrees = math.degrees(constrain(msg.position[1]))
+    yaw_degrees = math.degrees(constrain(msg.positions[0], yaw_min, yaw_max))
+    tilt_degrees = math.degrees(constrain(msg.positions[1],tilt_min, tilt_max))
     
-    print(yaw_degrees, tilt_degrees)
+    print("Yaw: ", yaw_degrees, "tilt: ", tilt_degrees)
     # convert float angle radians -pi/2 to pi/2 to integer degrees 0-180 
     yaw_servo_position.data   = int(yaw_degrees)
     tilt_servo_position.data = int(tilt_degrees)
@@ -68,9 +69,14 @@ def move_servos(_jointstate: JointTrajectoryPoint) -> None:
     # send an int angle to move the servo position to 0-180  
     yaw_servo.publish(yaw_servo_position)
     tilt_servo.publish(tilt_servo_position)
-def move_servos(msg):
+# runs though all the JointTrajectoryPoint's inside a JointTrajectory
+# which basically runs though an array of angles for each of the joints in this case
+# a joint is a servo motor (and a diamixel motor for the antenna)
+# and waits `DELAY` time before setting the motors to go to the next position
+def process_positions(msg: JointTrajectory)->None:
     print(msg)
-    for joint_point in msg.data.points:
+    for joint_point in msg.points:
+        print("Here")
         move_servos(joint_point)
         sleep(DELAY)
 
@@ -100,7 +106,8 @@ if __name__ == "__main__":
     # float64[] effort
 
     # rostopic pub /move_head "/{header:{}, name: ['servo1', 'servo2'], position: [0.5, 0.5], velocity:[], effort:[]}""
-    sub=rospy.Subscriber("/head/position_animator", JointTrajectory, move_servos)
+    sub=rospy.Subscriber("/head/position_animator", JointTrajectory, process_positions)
+    sub=rospy.Subscriber("/head/position_animator/debug_point", JointTrajectoryPoint, move_servos)
     
     rate=rospy.Rate(10)
     
