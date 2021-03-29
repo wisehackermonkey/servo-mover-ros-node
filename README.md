@@ -240,6 +240,7 @@ rostopic pub /head/position_animator trajectory_msgs/JointTrajectory '{points:[{
 
 
 rostopic pub /head/position_animator trajectory_msgs/JointTrajectory '{points:[{positions:[1.5,1.5]},{positions:[0.8,1.2]},{positions:[0.7,0.6]},{positions:[0.3,0.1]}]}'
+
 ```
 ### Run node
 #### note all of these are in sepeart windows
